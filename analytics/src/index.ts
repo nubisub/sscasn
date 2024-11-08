@@ -4,7 +4,7 @@ import { specs, swaggerUi } from "./config/setupSwagger";
 import { setupDatabase } from "./config/setupDatabase";
 import dotenv from "dotenv";
 const CSS_URL =
-	"https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+	"https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.18.2/swagger-ui.min.css";
 const app = express();
 dotenv.config();
 setupDatabase();

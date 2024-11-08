@@ -8,7 +8,7 @@ var routes_1 = __importDefault(require("./routes"));
 var setupSwagger_1 = require("./config/setupSwagger");
 var setupDatabase_1 = require("./config/setupDatabase");
 var dotenv_1 = __importDefault(require("dotenv"));
-var CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+var CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.18.2/swagger-ui.min.css";
 var app = (0, express_1.default)();
 dotenv_1.default.config();
 (0, setupDatabase_1.setupDatabase)();
