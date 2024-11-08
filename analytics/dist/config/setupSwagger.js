@@ -23,7 +23,7 @@ var options = {
             },
         ],
     },
-    apis: ["./dist/routes/*.js"],
+    apis: [`${__dirname}/../routes/*.js`],
 };
 swagger_ui_express_1.default.setup;
 var specs = (0, swagger_jsdoc_1.default)(options);
