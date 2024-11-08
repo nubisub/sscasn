@@ -1,6 +1,7 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import dotenv from "dotenv";
+import path from "path";
 
 dotenv.config();
 const options = {
@@ -17,7 +18,7 @@ const options = {
 			},
 		],
 	},
-	apis: ["**/*.ts"],
+	apis: ["./src/routes/*.ts"],
 };
 swaggerUi.setup;
 const specs = swaggerJSDoc(options);

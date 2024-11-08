@@ -10,20 +10,20 @@ exports.swaggerUi = swagger_ui_express_1.default;
 var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 var options = {
-	definition: {
-		openapi: "3.0.0",
-		info: {
-			title: "SSCASN API Documentation",
-			version: "1.0.0",
-			description: "A simple Express API with Swagger documentation",
-		},
-		servers: [
-			{
-				url: process.env.API_URL || "http://localhost:3000/api",
-			},
-		],
-	},
-	apis: ["./dist/**/*.js"],
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "SSCASN API Documentation",
+            version: "1.0.0",
+            description: "A simple Express API with Swagger documentation",
+        },
+        servers: [
+            {
+                url: process.env.API_URL || "http://localhost:3000/api",
+            },
+        ],
+    },
+    apis: ["./dist/routes/*.js"],
 };
 swagger_ui_express_1.default.setup;
 var specs = (0, swagger_jsdoc_1.default)(options);
