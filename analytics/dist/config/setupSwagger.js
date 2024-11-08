@@ -23,7 +23,7 @@ var options = {
             },
         ],
     },
-    apis: ["**/*.js"],
+    apis: ["./src/routes/*.ts"],
 };
 swagger_ui_express_1.default.setup;
 var specs = (0, swagger_jsdoc_1.default)(options);
