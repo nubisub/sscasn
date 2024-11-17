@@ -148,19 +148,77 @@ export const formasi = Router();
  *       - Formasi
  *     parameters:
  *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search keyword (Jabatan, Instansi, Unit Kerja)
+ *         example: "Pengawas"
+ *         required: false
+ *       - in: query
+ *         name: instansi_kode
+ *         schema:
+ *           type: string
+ *         description: Kode Instansi
+ *         example: A5EB03E23D46F6A0E040640A040252AD
+ *         required: false
+ *       - in: query
+ *         name: jabatan_kode
+ *         schema:
+ *           type: string
+ *         description: Kode Jabatan
+ *         example: JF0087286
+ *         required: false
+ *       - in: query
+ *         name: pendidikan_kode
+ *         schema:
+ *           type: string
+ *         description: Kode Pendidikan
+ *         example: 5101087
+ *         required: false
+ *       - in: query
+ *         name: min_gaji
+ *         schema:
+ *           type: integer
+ *         description: Minimum salary
+ *         example: 3000000
+ *         required: false
+ *       - in: query
+ *         name: max_gaji
+ *         schema:
+ *           type: integer
+ *         description: Maximum salary
+ *         example: 10000000
+ *         required: false
+ *       - in: query
  *         name: page
  *         schema:
  *           type: integer
  *         description: Page number for pagination
  *         example: 1
- *         required: true
+ *         required: false
  *       - in: query
  *         name: limit
  *         schema:
  *           type: integer
  *         description: Number of items per page
  *         example: 10
- *         required: true
+ *         required: false
+ *       - in: query
+ *         name: sort_by
+ *         schema:
+ *           type: string
+ *           enum: [jumlah_formasi, jumlah_pelamar, gaji_min, gaji_max]
+ *         required: false
+ *         description: Sort by field
+ *         example: jumlah_formasi
+ *       - in: query
+ *         name: sort_order
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
+ *         required: false
+ *         description: Sort order
+ *         example: desc
  *     responses:
  *       200:
  *         description: A list of formasi
