@@ -92,10 +92,9 @@ exports.pendidikan.get("/", controller.getAll);
  *       - in: path
  *         name: id
  *         schema:
- *           example: 10
- *           items:
- *             type: string
- *             enum: ['05', '10', '15', '17', '18', '20', '25', '30', '35', '40', '45', '50']
+ *           type: string
+ *           enum: ['05', '10', '15', '17', '18', '20', '25', '30', '35', '40', '45', '50']
+ *           example: "10"
  *         description: Tingkat pendidikan
  *     responses:
  *       200:

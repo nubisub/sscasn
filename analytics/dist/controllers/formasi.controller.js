@@ -39,44 +39,84 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getById = exports.getAll = void 0;
 var formasi_model_1 = require("../models/formasi.model");
 var getAll = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var page, limit, total_pages, _a, _b, offset, formasi, pagination, _c, error_1;
-    var _d, _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+    var page, limit, instansi_kode, jabatan_kode, pendidikan_kode, min_gaji, max_gaji, sort_by, sort_order, search, query, sort, regexPendidikan, regexSearch, offset, formasi, total_items, total_pages, pagination, _a, error_1;
+    var _b, _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0:
-                _f.trys.push([0, 5, , 6]);
+                _d.trys.push([0, 5, , 6]);
                 page = Math.max(parseInt(req.query.page) || 1, 1);
                 limit = Math.max(parseInt(req.query.limit) || 10, 1);
-                _b = (_a = Math).ceil;
-                return [4 /*yield*/, formasi_model_1.Formasi.countDocuments()];
-            case 1:
-                total_pages = _b.apply(_a, [(_f.sent()) / limit]);
+                instansi_kode = req.query.instansi_kode;
+                jabatan_kode = req.query.jabatan_kode;
+                pendidikan_kode = req.query.pendidikan_kode;
+                min_gaji = req.query.min_gaji;
+                max_gaji = req.query.max_gaji;
+                sort_by = req.query.sort_by || "jumlah_formasi";
+                sort_order = req.query.sort_order || "desc";
+                search = req.query.search;
+                query = {};
+                sort = {};
+                sort[sort_by] = sort_order === "asc" ? 1 : -1;
+                if (instansi_kode) {
+                    query.instansi_id = instansi_kode;
+                }
+                if (jabatan_kode) {
+                    query.jabatan_kd = jabatan_kode;
+                }
+                if (pendidikan_kode) {
+                    regexPendidikan = new RegExp("\\b".concat(pendidikan_kode, "\\b"));
+                    query.kode_ref_pend = regexPendidikan;
+                }
+                if (min_gaji) {
+                    query.gaji_min = { $gte: parseInt(min_gaji) };
+                }
+                if (max_gaji) {
+                    query.gaji_max = { $lte: parseInt(max_gaji) };
+                }
+                if (search) {
+                    regexSearch = new RegExp(search, "i");
+                    query.$or = [
+                        { ins_nm: regexSearch },
+                        { jabatan_nm: regexSearch },
+                        { lokasi_nm: regexSearch },
+                        { pendidikan_nm: regexSearch },
+                    ];
+                }
                 if (limit > 100)
                     limit = 100;
                 offset = (page - 1) * limit;
-                return [4 /*yield*/, formasi_model_1.Formasi.find().skip(offset).limit(limit)];
+                return [4 /*yield*/, formasi_model_1.Formasi.find(query)
+                        .select("-_id formasi_id ins_nm jabatan_nm lokasi_nm pendidikan_nm jumlah_formasi jumlah_ms gaji_min gaji_max")
+                        .sort(sort)
+                        .limit(limit)
+                        .skip(offset)];
+            case 1:
+                formasi = _d.sent();
+                return [4 /*yield*/, formasi_model_1.Formasi.countDocuments(query)];
             case 2:
-                formasi = _f.sent();
-                _d = {
+                total_items = _d.sent();
+                total_pages = Math.ceil(total_items / limit);
+                _b = {
                     current_page: page,
                     per_page: limit,
                     total_pages: total_pages
                 };
                 return [4 /*yield*/, formasi_model_1.Formasi.countDocuments()];
             case 3:
-                _d.total_items = _f.sent();
-                _e = {};
-                _c = page * limit;
+                _b.total_items = _d.sent();
+                _c = {};
+                _a = page * limit;
                 return [4 /*yield*/, formasi_model_1.Formasi.countDocuments()];
             case 4:
-                pagination = (_d.links = (_e.next_page_url = _c < (_f.sent())
+                pagination = (_b.links = (_c.next_page_url = _a < (_d.sent())
                     ? "".concat(process.env.API_URL, "/formasi?page=").concat(page + 1, "&limit=").concat(limit)
                     : null,
-                    _e.previous_page_url = page > 1
+                    _c.previous_page_url = page > 1
                         ? "".concat(process.env.API_URL, "/formasi?page=").concat(page - 1, "&limit=").concat(limit)
                         : null,
-                    _e),
-                    _d);
+                    _c),
+                    _b);
                 res.json({
                     status: "success",
                     code: 200,
@@ -89,7 +129,7 @@ var getAll = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 });
                 return [3 /*break*/, 6];
             case 5:
-                error_1 = _f.sent();
+                error_1 = _d.sent();
                 //
                 res.json({
                     status: "error",
@@ -146,42 +186,3 @@ var getById = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 exports.getById = getById;
-// export const getTopTenByJabatan = async (req: Request, res: Response) => {
-// 	try {
-// 		const formasi = await Formasi.aggregate([
-// 			{
-// 				$group: {
-// 					_id: "$jabatan_nm",
-// 					total: { $sum: "$jumlah_formasi" },
-// 				},
-// 			},
-// 			{
-// 				$sort: { total: -1 },
-// 			},
-// 			{
-// 				$limit: 10,
-// 			},
-// 			{
-// 				$project: {
-// 					_id: 0,
-// 					jabatan_nm: "$_id",
-// 					total: 1,
-// 				},
-// 			},
-// 		]);
-// 		res.json({
-// 			status: "success",
-// 			code: 200,
-// 			message: "Data retrieved successfully",
-// 			data: formasi,
-// 			errors: null,
-// 		});
-// 	} catch (error) {
-// 		res.json({
-// 			status: "error",
-// 			code: (error as any).code || 500,
-// 			message: "Internal Server Error",
-// 			data: null,
-// 		});
-// 	}
-// };
